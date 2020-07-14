@@ -3,7 +3,8 @@ import * as types from '../actions/types';
 
 const initialState = {
   loading: false,
-  data: [],
+  countries: [],
+  error: '',
 };
 
 const url = `https://restcountries.eu/rest/v2/all`;
@@ -19,13 +20,24 @@ const getAll = async () => {
 export default function (state = initialState, action) {
   switch (action.type) {
     case types.FETCH_COUNTRIES:
-      return (state = types.FETCH_COUNTRIES);
+      return {
+        ...state,
+        loading: true,
+      };
 
     case types.FETCH_COUNTRIES_SUCCESS:
-      return (state = getAll());
+      return {
+        ...state,
+        countries: action.payload,
+        loading: false,
+      };
 
     case types.FETCH_COUNTRIES_FAIL:
-      return (state = types.FETCH_COUNTRIES_FAIL);
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
 
     default:
       return state;

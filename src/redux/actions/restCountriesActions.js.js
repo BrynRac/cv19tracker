@@ -9,13 +9,13 @@ export const fetchCountries = () => {
 export const fetchCountriesSuccess = (countries) => {
   return {
     type: types.FETCH_COUNTRIES_SUCCESS,
-    countries,
+    payload: countries,
   };
 };
 
 export const fetchCountriesFail = (error) => {
   return {
     type: types.FETCH_COUNTRIES_FAIL,
-    error,
+    payload: error,
   };
 };
