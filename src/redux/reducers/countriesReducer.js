@@ -1,4 +1,3 @@
-import axios from 'axios';
 import * as types from '../actions/types';
 
 const initialState = {
@@ -7,19 +6,9 @@ const initialState = {
   error: '',
 };
 
-const url = `https://restcountries.eu/rest/v2/all`;
-const getAll = async () => {
-  try {
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    console.log('Error in getAll ', error);
-  }
-};
-
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.FETCH_COUNTRIES:
+    case types.FETCH_COUNTRIES_REQUEST:
       return {
         ...state,
         loading: true,
@@ -29,6 +18,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         countries: action.payload,
+        error: '',
         loading: false,
       };
 
@@ -36,6 +26,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         error: action.payload,
+        countries: [],
         loading: false,
       };
 

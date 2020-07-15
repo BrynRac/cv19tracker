@@ -8,10 +8,38 @@ html {
 }
 
 .App {
+  height: 100vh;
+  margin: auto;
+}
+
+.Content {
+  position: relative;
+  margin: 2rem;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 100px 1fr 100px;
+}
+
+.Sidebar {
+  position: fixed;
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+  color: black;
+  height: 100%;
+  width: 250px;
+  background-color: aliceblue;
+}
+
+.Menu {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
+}
+
+.map-container {
+  grid-column: 2 / span 2;
+  grid-row: 2 / span 2;
 }
 
 @keyframes spin {
