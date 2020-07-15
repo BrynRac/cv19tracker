@@ -9,13 +9,13 @@ export default function Search() {
     return setQuery(value);
   };
 
-  const setWord = () => {
+  const updateWord = () => {
     return setWord(query);
   };
   return (
     <div>
       <input type="text" onChange={handleChange} value={query} />
-      <button onClick={}>Search</button>
+      <button onClick={updateWord}>Search</button>
       <p>{word}</p>
     </div>
   );

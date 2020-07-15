@@ -14,20 +14,21 @@ html {
 
 .Content {
   position: relative;
-  margin: 2rem;
   display: grid;
   height: 100%;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 100px 1fr 100px;
 }
 
+/* Side bar menu ////////////////////////////// */
 .Sidebar {
   position: fixed;
+  overflow-y: scroll;
   grid-column: 1 / span 2;
   grid-row: 1 / span 2;
   color: black;
   height: 100%;
-  width: 250px;
+  width: 300px;
   background-color: aliceblue;
 }
 
@@ -37,11 +38,31 @@ html {
   align-items: center;
 }
 
+.country-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.country-btn {
+  cursor: pointer;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.country-btn h4 {
+  margin: 0 1rem;
+}
+.country-btn:hover {
+  background-color: rgb(184, 226, 228);
+}
+/* END Side bar menu ////////////////////////////// */
+
 .map-container {
+  margin: 2rem;
   grid-column: 2 / span 2;
   grid-row: 2 / span 2;
 }
-
 @keyframes spin {
   from {
     transform: rotate(0deg);
