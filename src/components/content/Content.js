@@ -23,6 +23,7 @@ export default function Content() {
       <div className="map-container">
         <Map />
       </div>
+      
     </div>
   );
 }

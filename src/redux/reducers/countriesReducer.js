@@ -3,6 +3,7 @@ import * as types from '../actions/types';
 const initialState = {
   loading: false,
   countries: [],
+  country: {},
   error: '',
 };
 
@@ -28,6 +29,12 @@ export default function (state = initialState, action) {
         error: action.payload,
         countries: [],
         loading: false,
+      };
+
+    case types.SELECT_COUNTRY:
+      return {
+        ...state,
+        country: action.payload,
       };
 
     default:

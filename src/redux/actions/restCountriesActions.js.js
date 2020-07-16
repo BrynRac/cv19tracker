@@ -21,6 +21,13 @@ export const fetchCountriesFail = (error) => {
   };
 };
 
+export const selectCountry = (country) => {
+  return {
+    type: types.SELECT_COUNTRY,
+    payload: country
+  }
+}
+
 export const fetchCountries = () => {
   const url = `https://restcountries.eu/rest/v2/all`;
 
