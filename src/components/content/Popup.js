@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function Popup({ country }) {
+export default function PopUp({ country }) {
   return (
-    <div className="Popup">
+    <div className="PopUp">
       <ul className="menu-list">
         <li className="menu-item">
           <h4>{country.location}</h4>
