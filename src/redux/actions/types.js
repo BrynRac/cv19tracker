@@ -1,18 +1,11 @@
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
-export const RESET = 'RESET';
-export const NEW_COUNT = 'NEW_COUNT';
-export const INCREMENT_B = 'INCREMENT_B';
-export const DECREMENT_B = 'DECREMENT_B';
-export const RESET_B = 'RESET_B';
-
-// Country types
-export const FETCH_COUNTRIES_REQUEST = 'FETCH_COUNTRIES_REQUEST';
-export const FETCH_COUNTRIES_SUCCESS = 'FETCH_COUNTRIES_SUCCESS';
-export const FETCH_COUNTRIES_FAIL = 'FETCH_COUNTRIES_FAIL';
 export const SELECT_COUNTRY = 'SELECT_COUNTRY';
 
 // Covid types
 export const FETCH_COVID_REQUEST = 'FETCH_COVID_REQUEST';
 export const FETCH_COVID_SUCCESS = 'FETCH_COVID_SUCCESS';
 export const FETCH_COVID_FAIL = 'FETCH_COVID_FAIL';
+
+// Global Covid types
+export const FETCH_GLOBALS_REQUEST = 'FETCH_GLOBALS_REQUEST';
+export const FETCH_GLOBALS_SUCCESS = 'FETCH_GLOBALS_SUCCESS';
+export const FETCH_GLOBALS_FAIL = 'FETCH_GLOBALS_FAIL';

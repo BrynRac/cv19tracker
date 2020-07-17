@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
 
-// import Content from './components/content/Content';
-import Map from './components/content/Map'
+import Content from './components/content/Content';
 
 function App() {
   return (
     <div className="App">
-      <Map />
+      <Content />
     </div>
   );
 }

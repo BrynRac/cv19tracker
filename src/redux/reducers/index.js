@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-// import count from './counterReducer';
-// import countB from './counterReducerB';
-// import countryData from './countriesReducer';
-import covidData from './covidReducer'
+import covid from './covidReducer';
+import global from './covidGlobalsReducer';
 
 export default combineReducers({
-  // countryData,
-  covidData
+  covid,
+  global,
 });

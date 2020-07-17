@@ -2,39 +2,31 @@ import * as types from '../actions/types';
 
 const initialState = {
   loading: false,
-  countries: [],
-  country: {},
+  globals: [],
   error: '',
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.FETCH_COUNTRIES_REQUEST:
+    case types.FETCH_GLOBALS_REQUEST:
       return {
         ...state,
         loading: true,
       };
 
-    case types.FETCH_COUNTRIES_SUCCESS:
+    case types.FETCH_GLOBALS_SUCCESS:
       return {
         ...state,
-        countries: action.payload,
+        globals: action.payload,
         error: '',
         loading: false,
       };
 
-    case types.FETCH_COUNTRIES_FAIL:
+    case types.FETCH_GLOBALS_FAIL:
       return {
         ...state,
         error: action.payload,
-        countries: [],
         loading: false,
-      };
-
-    case types.SELECT_COUNTRY:
-      return {
-        ...state,
-        country: action.payload,
       };
 
     default:

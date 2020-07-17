@@ -10,7 +10,7 @@ export default function covidReducer(state = initialState, action) {
     case types.FETCH_COVID_SUCCESS:
       return {
         ...state,
-        covidData: action.payload,
+        covidData: action.payload, //Global: {...}, Countries: {...}, Date: xxxxxx
         error: '',
         loading: false,
       };

@@ -1,29 +1,31 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCountries } from '../../redux/actions/restCountriesActions.js.js';
+import { fetchCovid } from '../../redux/actions/covidActions';
+import { fetchGlobals } from '../../redux/actions/globalCovidActions';
 
 //components
 import Map from './Map';
 import Sidebar from './Sidebar';
 
 export default function Content() {
-  const data = useSelector((state) => state.countryData);
+  const covid = useSelector((state) => state.covid);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!data.countries.length) {
-      dispatch(fetchCountries());
-    }
-  }, [dispatch, data.countries.length]);
+    dispatch(fetchCovid()).catch((error) =>
+      console.log('Error in useEffect: ', error.message)
+    );
+    dispatch(fetchGlobals()).catch((error) =>
+      console.log('Error in useEffect: ', error.message)
+    );
+  }, [dispatch]);
 
-  // <button onClick={() => dispatch(fetchCountries())}>Fetch Countries</button>;
   return (
     <div className="Content">
-      <Sidebar countries={data.countries} />
+      <Sidebar />
       <div className="map-container">
-        <Map />
+        <Map covid={covid} />
       </div>
-      
     </div>
   );
 }
