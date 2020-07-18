@@ -17,13 +17,12 @@ html {
   margin: auto;
   font-family: 'Open sans', sans-serif;
 }
-
-h1,
 h2,
 h3,
 h4,
 h5 {
-  font-family: 'lato', sans-serif;
+  font-family: 'cabin', sans-serif;
+  font-weight: 400;
 }
 
 .Content {
@@ -37,18 +36,15 @@ h5 {
 /* Side bar menu ////////////////////////////// */
 .Sidebar {
   position: fixed;
-  overflow-y: scroll;
   grid-column: 1 / span 2;
   grid-row: 1 / span 2;
-  color: black;
   width: 300px;
-  padding: 1rem 0;
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 10;
-  margin: 1rem;
-  background-color: aliceblue;
+  background-color: rgba(0, 0, 0, 0.5);
   transition: transform ease-in-out 0.3s;
 }
 
@@ -56,6 +52,7 @@ h5 {
   transform: translateX(-100%);
 }
 .Menu {
+  color: #baf1da;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,8 +67,9 @@ h5 {
 .menu-item {
   display: flex;
   justify-content: space-between;
-  margin: 2rem 1rem;
-
+  background-color: rgba(0, 0, 0, 0.37);
+  height: 70px;
+  padding: 1rem 0;
 }
 
 .popup-item {
@@ -85,16 +83,20 @@ h5 {
 }
 
 .menu-item div {
+  display: flex;
+  flex-direction: column;
   text-align: right;
+  margin-right: 1rem;
 }
 
 .small-text {
+  color: #62b692;
   font-size: 12px;
 }
 
 .menu-item p {
-  color: rgb(158, 158, 158);
-  margin: 0;
+  color: #62b692;
+  margin-left: 1rem;
 }
 
 .countup span {
@@ -130,7 +132,8 @@ h5 {
 /* END Side bar menu ////////////////////////////// */
 
 .map-container {
-  grid-column: 1 / span 2;
+  width: 100%;
+  grid-column: 1 / span 3;
   grid-row: 1 / span 1;
 }
 
@@ -192,9 +195,31 @@ h5 {
   }
 }
 
-@media (max-width: 800px) {
-  .map-container {
+@media (max-width: 700px) {
+  .Sidebar {
     grid-column: 1 / span 2;
-    grid-row: 1 / span 2;
+    grid-row: 1;
+    width: 100%;
+    padding-top: 1rem;
+    z-index: 10;
+    font-size: 12px;
+}
+
+  .menu-list {
+    display: flex;
+  }
+
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    width: 100%;
+  }
+
+  .menu-item div {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin: 0 1rem;
   }
 }

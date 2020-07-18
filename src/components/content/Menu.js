@@ -22,11 +22,10 @@ export default function Menu({ globalData }) {
   } else {
     renderItems = (
       <div className="Menu">
-        <h2>CV-19 Tracker</h2>
         <ul className="menu-list">
           <IntlProvider locale="en">
             <li className="menu-item">
-              <p>Total Confirmed: </p>
+              <p>Confirmed Cases: </p>
               <div>
                 <h3>
                   <Countup {...countupParams} end={globalNums.TotalConfirmed} />
@@ -39,10 +38,10 @@ export default function Menu({ globalData }) {
               </div>
             </li>
             <li className="menu-item">
-              <p>Total Deaths: </p>
+              <p>Deaths: </p>
 
               <div>
-                <h3 style={{ color: '#da0000' }}>
+                <h3 style={{ color: '#ff3535' }}>
                   <Countup {...countupParams} end={globalNums.TotalDeaths} />
                   {/* <FormattedNumber value={globalNums.TotalDeaths} /> */}
                 </h3>
@@ -52,9 +51,9 @@ export default function Menu({ globalData }) {
               </div>
             </li>
             <li className="menu-item">
-              <p>Total Recovered: </p>
+              <p>Recovered: </p>
               <div>
-              <h3 style={{ color: 'green' }}>
+              <h3 style={{ color: '#24d024' }}>
                   <Countup {...countupParams} end={globalNums.TotalRecovered} />
                   {/* <FormattedNumber value={globalNums.TotalRecovered} /> */}
                 </h3>

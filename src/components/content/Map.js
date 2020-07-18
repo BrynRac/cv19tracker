@@ -4,18 +4,22 @@ import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import Spinner from '../Spinner';
 import PopUp from './PopUp';
 
+function debounce(fn, ms) {
+  let timer;
+  return (_) => {
+    clearTimeout(timer);
+    timer = setTimeout((_) => {
+      timer = null;
+      fn.apply(this, arguments);
+    }, ms);
+  };
+}
+
 export default function Map({ covid }) {
-  useEffect(() => {
-    const listener = (e) => {
-      if (e.key === 'Escape') {
-        setActiveMarker(null);
-      }
-    };
-    window.addEventListener('keydown', listener);
-    return () => {
-      window.removeEventListener('keydown', listener);
-    };
-  }, []);
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   const [viewport, setViewport] = useState({
     lat: 39.8283,
@@ -25,6 +29,24 @@ export default function Map({ covid }) {
     height: '100vh',
   });
   const [activeMarker, setActiveMarker] = useState(null);
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(function handleResize() {
+      setViewport({ ...viewport }, { width: '100vw', height: '100vh' });
+    }, 1000);
+
+    const listener = (e) => {
+      if (e.key === 'Escape') {
+        setActiveMarker(null);
+      }
+    };
+    window.addEventListener('resize', debouncedHandleResize);
+    window.addEventListener('keydown', listener);
+    return (_) => {
+      window.removeEventListener('keydown', listener);
+      window.removeEventListener('resize', debouncedHandleResize);
+    };
+  }, []);
 
   const token =
     'pk.eyJ1IjoiZ2FpemEiLCJhIjoiY2tjbnRibjh6MGVqcDJ5b2Fqa3RlcjF0dCJ9._4VCTwYCfUIhO-YB6kloVw';
