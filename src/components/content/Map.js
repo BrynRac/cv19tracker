@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 
 import Spinner from '../Spinner';
 import PopUp from './PopUp';
 
 export default function Map({ covid }) {
+  useEffect(() => {
+    const listener = (e) => {
+      if (e.key === 'Escape') {
+        setActiveMarker(null);
+      }
+    };
+    window.addEventListener('keydown', listener);
+    return () => {
+      window.removeEventListener('keydown', listener);
+    };
+  }, []);
+
   const [viewport, setViewport] = useState({
     lat: 39.8283,
     lng: 98.5795,
@@ -53,6 +65,7 @@ export default function Map({ covid }) {
           ))}
           {activeMarker ? (
             <Popup
+              onClose={() => setActiveMarker(null)}
               latitude={activeMarker.latitude}
               longitude={activeMarker.longitude}
             >

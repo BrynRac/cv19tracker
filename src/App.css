@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Lato:wght@700&family=Open+Sans&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,6 +15,11 @@ html {
   position: relative;
   height: 100vh;
   margin: auto;
+  font-family: 'Open sans', sans-serif;
+}
+
+h1,h2,h3,h4,h5 {
+  font-family: 'lato', sans-serif;
 }
 
 .Content {
@@ -61,22 +68,37 @@ html {
   align-items: center;
   margin: 0 0.5rem;
 }
+
+.popup-item {
+}
+
+.PopUp {
+  cursor: default;
+  color: black;
+  max-width: 300px;
+  animation: fade-in 0.3s ease-in-out;
+}
+
 .menu-item > * {
   margin: 0.5rem 0;
 }
+
 .menu-item div {
   order: 0;
   display: flex;
   flex-direction: column;
 }
+
 .menu-item p {
   color: rgb(158, 158, 158);
   margin: 0;
 }
+
 .countup span {
   font-size: 20px;
   font-weight: bold;
 }
+
 .countup p {
   font-size: 12px;
   text-align: right;
@@ -94,16 +116,18 @@ html {
   align-items: center;
   justify-content: center;
 }
+
 .country-btn h4 {
   margin: 0 1rem;
 }
+
 .country-btn:hover {
   background-color: rgb(184, 226, 228);
 }
 /* END Side bar menu ////////////////////////////// */
 
 .map-container {
-  grid-column: 2 / span 2;
+  grid-column: 1 / span 2;
   grid-row: 1 / span 1;
 }
 
@@ -153,8 +177,20 @@ html {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 800px) {
-  .map-container{
+  .map-container {
     grid-column: 1 / span 2;
     grid-row: 1 / span 2;
   }

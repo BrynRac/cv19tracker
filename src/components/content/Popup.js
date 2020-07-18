@@ -1,4 +1,5 @@
 import React from 'react';
+import { IntlProvider, FormattedNumber } from 'react-intl';
 
 export default function PopUp({ country }) {
   return (
@@ -7,21 +8,29 @@ export default function PopUp({ country }) {
         <li className="menu-item">
           <h4>{country.location}</h4>
         </li>
-        <li className="menu-item">
-          <p>Confirmed:</p>
-          <h4> {country.confirmed}</h4>
-        </li>
-        <li className="menu-item">
-          <p>Deaths:</p>
-          <h4> {country.dead}</h4>
-        </li>
-        <li className="menu-item">
-          <p>Recovered</p>
-          <h4> {country.recovered}</h4>
-        </li>
-        <li className="menu-item">
-          <p>Updated: {country.updated}</p>
-        </li>
+        <IntlProvider>
+          <li className="menu-item popup-item">
+            <p>Confirmed:</p>
+            <h4>
+              <FormattedNumber value={country.confirmed} />
+            </h4>
+          </li>
+          <li className="menu-item popup-item">
+            <p>Deaths:</p>
+            <h4>
+              <FormattedNumber value={country.dead} />
+            </h4>
+          </li>
+          <li className="menu-item popup-item">
+            <p>Recovered</p>
+            <h4>
+              <FormattedNumber value={country.recovered} />
+            </h4>
+          </li>
+          <li className="menu-item">
+            <p>Updated: {country.updated}</p>
+          </li>
+        </IntlProvider>
       </ul>
     </div>
   );
