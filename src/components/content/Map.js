@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+// require('dotenv').config()
+import React, { useState, useEffect, useRef } from 'react';
+import ReactMapGL, { Marker, Popup, Cluster } from 'react-map-gl';
 
 import Spinner from '../Spinner';
 import PopUp from './PopUp';
@@ -23,8 +24,9 @@ export default function Map({ covid }) {
 
   const [viewport, setViewport] = useState({
     lat: 39.8283,
-    lng: 98.5795,
-    zoom: 2,
+    lng: 60,
+    zoom: 1,
+    maxZoom: 3,
   });
   const [activeMarker, setActiveMarker] = useState(null);
 
@@ -49,8 +51,9 @@ export default function Map({ covid }) {
     };
   }, []);
 
-  const token =
-    'pk.eyJ1IjoiZ2FpemEiLCJhIjoiY2tjbnRibjh6MGVqcDJ5b2Fqa3RlcjF0dCJ9._4VCTwYCfUIhO-YB6kloVw';
+  const token = process.env.REACT_APP_MAPBOX_TOKEN
+
+  const mapRef = useRef();
 
   let renderItems;
   if (!covid.loading) {
