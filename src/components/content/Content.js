@@ -6,6 +6,7 @@ import { fetchGlobals } from '../../redux/actions/globalCovidActions';
 //components
 import Map from './Map';
 import Sidebar from './Sidebar';
+import Spinner from '../Spinner';
 
 export default function Content() {
   const covid = useSelector((state) => state.covid);
@@ -24,7 +25,7 @@ export default function Content() {
     <div className="Content">
       <Sidebar />
       <div className="map-container">
-        <Map covid={covid} />
+        {covid.loading ? <Spinner /> : <Map covid={covid} />}
       </div>
     </div>
   );
