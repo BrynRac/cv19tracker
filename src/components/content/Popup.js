@@ -8,7 +8,7 @@ export default function PopUp({ country }) {
         <li className="menu-item">
           <h4>{country.location}</h4>
         </li>
-        <IntlProvider>
+        <IntlProvider locale="en">
           <li className="menu-item popup-item">
             <p>Confirmed:</p>
             <h4>
