@@ -100,7 +100,7 @@ export default function Map({ covid }) {
                 latitude={latitude}
                 longitude={longitude}
               >
-                {pointCount < 12 ? (
+                {pointCount < 20 ? (
                   <div
                     onClick={() => zoomIn()}
                     className="cluster-marker"
@@ -113,8 +113,8 @@ export default function Map({ covid }) {
                     onClick={() => zoomIn()}
                     className="cluster-marker"
                     style={{
-                      width: `${10 * (pointCount / points.length) * 50}px`,
-                      height: `${10 * (pointCount / points.length) * 50}px`,
+                      width: `${7 * (pointCount / points.length) * 50}px`,
+                      height: `${7 * (pointCount / points.length) * 50}px`,
                     }}
                   >
                     {pointCount}

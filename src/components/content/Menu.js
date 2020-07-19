@@ -25,7 +25,7 @@ export default function Menu({ globalData }) {
         <ul className="menu-list">
           <IntlProvider locale="en">
             <li className="menu-item">
-              <p>Confirmed Cases: </p>
+              <p>Confirmed: </p>
               <div>
                 <h3>
                   <Countup {...countupParams} end={globalNums.TotalConfirmed} />

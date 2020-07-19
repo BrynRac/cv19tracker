@@ -73,14 +73,25 @@ h5 {
   padding: 1rem 0;
 }
 
-/* .popup-item {
-} */
-
 .PopUp {
   cursor: default;
   color: black;
-  max-width: 300px;
-  animation: fade-in 0.3s ease-in-out;
+  width: 200px;
+  animation: fade-in 0.2s ease-in-out;
+}
+
+.popup-list {
+  list-style-type: none;
+  padding: 0.5rem;
+}
+
+.popup-item > * {
+  margin: 0.5rem 0;
+}
+
+.popup-item {
+  display: flex;
+  justify-content: space-between;
 }
 
 .menu-item div {
@@ -88,6 +99,7 @@ h5 {
   flex-direction: column;
   text-align: right;
   margin-right: 1rem;
+  color: #178717;
 }
 
 .small-text {
@@ -223,16 +235,16 @@ h5 {
   .Sidebar {
     width: 100%;
     font-size: 16px;
+    padding: 0;
   }
 
   .menu-list {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   .menu-item {
     width: 100%;
-    max-width: 200px;
   }
 
   .menu-item div {
