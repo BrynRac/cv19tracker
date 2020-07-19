@@ -1,26 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMapGL, { Marker, Popup, Cluster } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import { IntlProvider, FormattedNumber } from 'react-intl';
 import useSupercluster from 'use-supercluster';
 
 import PopUp from './PopUp';
 
-// function debounce(fn, ms) {
-//   let timer;
-//   return (_) => {
-//     clearTimeout(timer);
-//     timer = setTimeout((_) => {
-//       timer = null;
-//       fn.apply(this, arguments);
-//     }, ms);
-//   };
-// }
-
 export default function Map({ covid }) {
-  // const [dimensions, setDimensions] = useState({
-  //   width: '100vw',
-  //   height: '100vh',
-  // });
-
   const [viewport, setViewport] = useState({
     lat: 39.8283,
     lng: 60,
@@ -30,23 +15,14 @@ export default function Map({ covid }) {
   const [activeMarker, setActiveMarker] = useState(null);
 
   useEffect(() => {
-    // const debouncedHandleResize = debounce(function handleResize() {
-    //   setViewport(
-    //     { ...viewport },
-    //     { width: dimensions.width, height: dimensions.height }
-    //   );
-    // }, 1000);
-
     const listener = (e) => {
       if (e.key === 'Escape') {
         setActiveMarker(null);
       }
     };
-    // window.addEventListener('resize', debouncedHandleResize);
     window.addEventListener('keydown', listener);
     return (_) => {
       window.removeEventListener('keydown', listener);
-      // window.removeEventListener('resize', debouncedHandleResize);
     };
   }, []);
 
@@ -111,52 +87,46 @@ export default function Map({ covid }) {
             );
           }
           return (
-            <Marker key={code} latitude={latitude} longitude={longitude}>
-              {confirmed === 0 && <div className="marker"></div>}
-              {confirmed > 0 && confirmed < 10000 && (
-                <div className="marker marker-small"></div>
-              )}
-              {confirmed > 10000 && confirmed < 30000 && (
-                <div className="marker marker-medium"></div>
-              )}
-              {confirmed > 50000 && (
-                <div
-                  className="marker marker-large"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveMarker(cluster.properties);
-                  }}
-                >
-                  {confirmed.toString().length > 3 ? confirmed.toString().slice(0, 3) +'K' : confirmed}
-                </div>
-              )}
-            </Marker>
+            <IntlProvider locale="en">
+              <Marker key={code} latitude={latitude} longitude={longitude}>
+                {confirmed > 0 && confirmed < 10000 && (
+                  <div
+                    className="marker marker-small"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveMarker(cluster.properties);
+                    }}
+                  >
+                    <FormattedNumber value={confirmed} />
+                  </div>
+                )}
+                {confirmed > 10000 && confirmed < 30000 && (
+                  <div
+                    className="marker marker-medium"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveMarker(cluster.properties);
+                    }}
+                  >
+                    <FormattedNumber value={confirmed} />
+                  </div>
+                )}
+                {confirmed > 50000 && (
+                  <div
+                    className="marker marker-large"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveMarker(cluster.properties);
+                    }}
+                  >
+                    <FormattedNumber value={confirmed} />
+                  </div>
+                )}
+              </Marker>
+            </IntlProvider>
           );
         })}
-        {/* {covid.covidData.map((country) => (
-          <Marker
-            key={country.country_code}
-            latitude={country.latitude}
-            longitude={country.longitude}
-          >
-            {country.confirmed === 0 && <div className="marker"></div>}
-            {country.confirmed > 0 && country.confirmed < 10000 && (
-              <div className="marker marker-small"></div>
-            )}
-            {country.confirmed > 10000 && country.confirmed < 30000 && (
-              <div className="marker marker-medium"></div>
-            )}
-            {country.confirmed > 30000 && (
-              <div
-                className="marker marker-large"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveMarker(country);
-                }}
-              ></div>
-            )}
-          </Marker>
-        ))} */}
+
         {activeMarker ? (
           <Popup
             onClose={() => setActiveMarker(null)}
