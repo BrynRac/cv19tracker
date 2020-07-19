@@ -27,11 +27,9 @@ export default function Menu({ globalData }) {
             <li className="menu-item">
               <p>Confirmed: </p>
               <div>
-                <h3>
+                <h3 style={{color: 'white'}}>
                   <Countup {...countupParams} end={globalNums.TotalConfirmed} />
-                  {/* <FormattedNumber value={globalNums.TotalConfirmed} /> */}
                 </h3>
-                {/* <Countup {...countupParams} end={globalData.globals ? globalNums.TotalConfirmed : [] }/> */}
                 <span className="small-text">
                   +<FormattedNumber value={globalNums.NewConfirmed} />{' '}
                 </span>
@@ -43,7 +41,6 @@ export default function Menu({ globalData }) {
               <div>
                 <h3 style={{ color: '#ff3535' }}>
                   <Countup {...countupParams} end={globalNums.TotalDeaths} />
-                  {/* <FormattedNumber value={globalNums.TotalDeaths} /> */}
                 </h3>
                 <span className="small-text">
                   +<FormattedNumber value={globalNums.NewDeaths} />
@@ -53,9 +50,8 @@ export default function Menu({ globalData }) {
             <li className="menu-item">
               <p>Recovered: </p>
               <div>
-              <h3 style={{ color: '#24d024' }}>
+                <h3 style={{ color: '#24d024' }}>
                   <Countup {...countupParams} end={globalNums.TotalRecovered} />
-                  {/* <FormattedNumber value={globalNums.TotalRecovered} /> */}
                 </h3>
                 <span className="small-text">
                   +<FormattedNumber value={globalNums.NewRecovered} />
