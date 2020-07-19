@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { Marker, Popup, Cluster } from 'react-map-gl';
 import useSupercluster from 'use-supercluster';
 
-import Spinner from '../Spinner';
 import PopUp from './PopUp';
 
 // function debounce(fn, ms) {
@@ -26,7 +25,7 @@ export default function Map({ covid }) {
     lat: 39.8283,
     lng: 60,
     zoom: 1,
-    maxZoom: 3,
+    maxZoom: 6,
   });
   const [activeMarker, setActiveMarker] = useState(null);
 
@@ -59,7 +58,14 @@ export default function Map({ covid }) {
     type: 'Feature',
     properties: {
       cluster: false,
+      location: point.location,
       confirmed: point.confirmed,
+      recovered: point.recovered,
+      dead: point.dead,
+      updated: point.updated,
+      code: point.country_code,
+      lat: point.latitude,
+      lng: point.longitude,
     },
     geometry: { type: 'Point', coordinates: [point.longitude, point.latitude] },
   }));
@@ -72,10 +78,8 @@ export default function Map({ covid }) {
     points,
     zoom: viewport.zoom,
     bounds,
-    options: { radius: 80, maxZoom: viewport.maxZoom },
+    options: { radius: 65, maxZoom: viewport.maxZoom },
   });
-
-  console.log(clusters);
 
   return (
     <div>
@@ -88,7 +92,48 @@ export default function Map({ covid }) {
         height={'100vh'}
         ref={mapRef}
       >
-        {covid.covidData.map((country) => (
+        {clusters.map((cluster) => {
+          const [longitude, latitude] = cluster.geometry.coordinates;
+          const {
+            cluster: isCluster,
+            point_count: pointCount,
+          } = cluster.properties;
+          const { confirmed, code } = cluster.properties;
+          if (isCluster) {
+            return (
+              <Marker
+                key={cluster.id}
+                latitude={latitude}
+                longitude={longitude}
+              >
+                <div className="cluster-marker">{pointCount}</div>
+              </Marker>
+            );
+          }
+          return (
+            <Marker key={code} latitude={latitude} longitude={longitude}>
+              {confirmed === 0 && <div className="marker"></div>}
+              {confirmed > 0 && confirmed < 10000 && (
+                <div className="marker marker-small"></div>
+              )}
+              {confirmed > 10000 && confirmed < 30000 && (
+                <div className="marker marker-medium"></div>
+              )}
+              {confirmed > 50000 && (
+                <div
+                  className="marker marker-large"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveMarker(cluster.properties);
+                  }}
+                >
+                  {confirmed.toString().length > 3 ? confirmed.toString().slice(0, 3) +'K' : confirmed}
+                </div>
+              )}
+            </Marker>
+          );
+        })}
+        {/* {covid.covidData.map((country) => (
           <Marker
             key={country.country_code}
             latitude={country.latitude}
@@ -111,12 +156,12 @@ export default function Map({ covid }) {
               ></div>
             )}
           </Marker>
-        ))}
+        ))} */}
         {activeMarker ? (
           <Popup
             onClose={() => setActiveMarker(null)}
-            latitude={activeMarker.latitude}
-            longitude={activeMarker.longitude}
+            latitude={activeMarker.lat}
+            longitude={activeMarker.lng}
           >
             <PopUp country={activeMarker} />
           </Popup>
