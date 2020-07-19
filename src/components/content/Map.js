@@ -10,7 +10,7 @@ export default function Map({ covid }) {
     lat: 39.8283,
     lng: 60,
     zoom: 1,
-    maxZoom: 6,
+    maxZoom: 12,
   });
   const [activeMarker, setActiveMarker] = useState(null);
 
@@ -50,11 +50,11 @@ export default function Map({ covid }) {
     ? mapRef.current.getMap().getBounds().toArray().flat()
     : null;
 
-  const { clusters } = useSupercluster({
+  const { clusters, supercluster } = useSupercluster({
     points,
     zoom: viewport.zoom,
     bounds,
-    options: { radius: 65, maxZoom: viewport.maxZoom },
+    options: { radius: 80, maxZoom: viewport.maxZoom },
   });
 
   return (
@@ -75,6 +75,24 @@ export default function Map({ covid }) {
             point_count: pointCount,
           } = cluster.properties;
           const { confirmed, code } = cluster.properties;
+
+          function zoomIn() {
+            const expansionZoom = Math.min(
+              supercluster.getClusterExpansionZoom(cluster.id),
+              12
+            );
+            setViewport({
+              ...viewport,
+              latitude,
+              longitude,
+              zoom: expansionZoom,
+            });
+          }
+
+          function activateMarker() {
+            setActiveMarker(cluster.properties);
+          }
+
           if (isCluster) {
             return (
               <Marker
@@ -82,19 +100,37 @@ export default function Map({ covid }) {
                 latitude={latitude}
                 longitude={longitude}
               >
-                <div className="cluster-marker">{pointCount}</div>
+                {pointCount < 12 ? (
+                  <div
+                    onClick={() => zoomIn()}
+                    className="cluster-marker"
+                    style={{ width: '25px', height: '25px' }}
+                  >
+                    {pointCount}
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => zoomIn()}
+                    className="cluster-marker"
+                    style={{
+                      width: `${10 * (pointCount / points.length) * 50}px`,
+                      height: `${10 * (pointCount / points.length) * 50}px`,
+                    }}
+                  >
+                    {pointCount}
+                  </div>
+                )}
               </Marker>
             );
           }
           return (
-            <IntlProvider locale="en">
-              <Marker key={code} latitude={latitude} longitude={longitude}>
+            <Marker key={code} latitude={latitude} longitude={longitude}>
+              <IntlProvider locale="en">
                 {confirmed > 0 && confirmed < 10000 && (
                   <div
                     className="marker marker-small"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveMarker(cluster.properties);
+                    onClick={() => {
+                      activateMarker();
                     }}
                   >
                     <FormattedNumber value={confirmed} />
@@ -103,9 +139,8 @@ export default function Map({ covid }) {
                 {confirmed > 10000 && confirmed < 30000 && (
                   <div
                     className="marker marker-medium"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveMarker(cluster.properties);
+                    onClick={() => {
+                      activateMarker();
                     }}
                   >
                     <FormattedNumber value={confirmed} />
@@ -114,16 +149,15 @@ export default function Map({ covid }) {
                 {confirmed > 50000 && (
                   <div
                     className="marker marker-large"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveMarker(cluster.properties);
+                    onClick={() => {
+                      activateMarker();
                     }}
                   >
                     <FormattedNumber value={confirmed} />
                   </div>
                 )}
-              </Marker>
-            </IntlProvider>
+              </IntlProvider>
+            </Marker>
           );
         })}
 

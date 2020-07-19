@@ -160,6 +160,13 @@ h5 {
   align-items: center;
   border-radius: 50%;
   font-size: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.marker:hover,
+.cluster-marker:hover {
+  border: 1px solid white;
+  transform: translateY(-2px);
 }
 
 .marker-small {
@@ -180,12 +187,12 @@ h5 {
 }
 
 .cluster-marker {
+  cursor: pointer;
+  transition: transform 0.3s;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #ffffff;
-  width: 40px;
-  height: 40px;
   border-radius: 50%;
   border: 2px dotted rgba(255, 255, 255, 0.534);
   background-color: rgba(172, 255, 47, 0.363);
