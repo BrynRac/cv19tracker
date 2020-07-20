@@ -16,9 +16,9 @@ import React from 'react';
 // type: "article"
 // updatedDateTime: null
 
-export default function NewsItem({ story }) {
+export default function NewsItem({ story, clickHandler }) {
   return (
-    <li className="news-item" onClick={() => alert(story.excerpt)}>
+    <li className="news-item" onClick={() => clickHandler(story)}>
       <div>
         <div>
           <p className="news-item-date">

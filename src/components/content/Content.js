@@ -9,11 +9,14 @@ import Map from './map/Map';
 import Sidebar from './sidebar/Sidebar';
 import Spinner from '../Spinner';
 import Title from '../Title';
+import Modal from './Modal';
 
 export default function Content() {
   const covid = useSelector((state) => state.covid);
   const news = useSelector((state) => state.news);
   const global = useSelector((state) => state.global);
+  const modalOpen = useSelector((state) => state.modal);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +42,8 @@ export default function Content() {
       <div className="map-container">
         {covid.loading ? <Spinner /> : <Map covid={covid} />}
       </div>
+      {modalOpen && <Modal />}
+      {/* <Carousel /> */}
       <Title />
     </div>
   );
