@@ -29,7 +29,12 @@ export default function Content() {
 
   return (
     <div className="Content">
-      <Sidebar news={news} global={global} />
+      {news.loading || global.loading ? (
+        <p>Fetching data...</p>
+      ) : (
+        <Sidebar news={news} global={global} />
+      )}
+
       <div className="map-container">
         {covid.loading ? <Spinner /> : <Map covid={covid} />}
       </div>

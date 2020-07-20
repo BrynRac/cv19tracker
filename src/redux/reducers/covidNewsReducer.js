@@ -19,7 +19,7 @@ export default function (state = initialState, action) {
         ...state,
         news: action.payload,
         error: '',
-        // loading: false,
+        loading: false,
       };
 
     case types.FETCH_NEWS_FAIL:
