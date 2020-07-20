@@ -20,7 +20,6 @@ export const fetchNews = () => async (dispatch) => {
   const url = 'https://api.smartable.ai/coronavirus/news/US';
   const token = process.env.REACT_APP_NEWS_TOKEN;
 
-  console.log('secret key: ', token);
   try {
     dispatch(fetchNewsRequest());
     const response = await axios({

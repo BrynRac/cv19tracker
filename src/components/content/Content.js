@@ -42,7 +42,7 @@ export default function Content() {
       <div className="map-container">
         {covid.loading ? <Spinner /> : <Map covid={covid} />}
       </div>
-      {modal.modalOpen && <Modal story={modal.modalContent}/>}
+      {modal.modalOpen && <Modal story={modal.modalContent} />}
       {/* <Carousel /> */}
       <Title />
     </div>

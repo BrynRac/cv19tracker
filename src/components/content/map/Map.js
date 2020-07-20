@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup, FlyToInterpolator } from 'react-map-gl';
 import { IntlProvider, FormattedNumber } from 'react-intl';
 import useSupercluster from 'use-supercluster';
 
@@ -75,6 +75,8 @@ export default function Map({ covid }) {
             latitude,
             longitude,
             zoom: expansionZoom,
+            transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
+            transitionDuration: 'auto',
           });
         }
 
