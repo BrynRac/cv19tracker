@@ -15,7 +15,7 @@ export default function Content() {
   const covid = useSelector((state) => state.covid);
   const news = useSelector((state) => state.news);
   const global = useSelector((state) => state.global);
-  const modalOpen = useSelector((state) => state.modal);
+  const modal = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
 
@@ -42,7 +42,7 @@ export default function Content() {
       <div className="map-container">
         {covid.loading ? <Spinner /> : <Map covid={covid} />}
       </div>
-      {modalOpen && <Modal />}
+      {modal.modalOpen && <Modal story={modal.modalContent}/>}
       {/* <Carousel /> */}
       <Title />
     </div>

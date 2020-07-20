@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   toggleModal,
   updateModalContent,
@@ -9,6 +10,7 @@ import NewsItem from './NewsItem';
 
 export default function News({ news }) {
   const [newsArr, setNewsArr] = useState([]);
+  const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,7 +18,10 @@ export default function News({ news }) {
   }, [news.news.news]);
 
   function clickHandler(event) {
-    dispatch(toggleModal());
+    if (!modal.modalOpen) {
+      dispatch(toggleModal());
+    }
+
     dispatch(updateModalContent(event));
   }
 
