@@ -5,9 +5,10 @@ import { fetchGlobals } from '../../redux/actions/globalCovidActions';
 import { fetchNews } from '../../redux/actions/covidNewsActions';
 
 //components
-import Map from './Map';
-import Sidebar from './Sidebar';
+import Map from './map/Map';
+import Sidebar from './sidebar/Sidebar';
 import Spinner from '../Spinner';
+import Title from '../Title';
 
 export default function Content() {
   const covid = useSelector((state) => state.covid);
@@ -38,6 +39,7 @@ export default function Content() {
       <div className="map-container">
         {covid.loading ? <Spinner /> : <Map covid={covid} />}
       </div>
+      <Title />
     </div>
   );
 }

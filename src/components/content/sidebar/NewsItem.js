@@ -18,12 +18,15 @@ import React from 'react';
 
 export default function NewsItem({ story }) {
   return (
-    <li className="news-item">
+    <li className="news-item" onClick={() => alert(story.excerpt)}>
       <div>
-        <h3>{story.title}</h3>
-        <p className="news-item-date">
-          {story.publishedDateTime.split('T')[0]}
-        </p>
+        <div>
+          <p className="news-item-date">
+            {story.publishedDateTime.split('T')[0]}
+          </p>
+          <h3 className="news-item-provider">{story.provider.name}</h3>
+        </div>
+        <p className="news-item-title">{story.title}</p>
       </div>
     </li>
   );

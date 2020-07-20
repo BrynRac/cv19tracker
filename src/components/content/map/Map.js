@@ -5,7 +5,7 @@ import useSupercluster from 'use-supercluster';
 
 // components
 import PopUp from './PopUp';
-import Spinner from '../Spinner';
+import Spinner from '../../Spinner';
 
 export default function Map({ covid }) {
   const [viewport, setViewport] = useState({

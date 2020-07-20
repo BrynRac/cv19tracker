@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import NewsItem from './content/NewsItem';
+import NewsItem from './NewsItem';
 
 export default function News({ news }) {
   const [newsArr, setNewsArr] = useState([]);
 
   useEffect(() => {
     setNewsArr(news.news.news);
-  }, []);
+  }, [news.news.news]);
 
   return (
     <div className="News">
