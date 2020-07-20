@@ -1,5 +1,10 @@
 import * as types from '../actions/types';
-import { initialState } from '../initialState';
+
+const initialState = {
+  loading: false,
+  covidData: [],
+  countryData: [],
+};
 
 export default function covidReducer(state = initialState, action) {
   switch (action.type) {

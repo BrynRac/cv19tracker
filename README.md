@@ -1,6 +1,6 @@
 ### About
 
-An app that fetches current Covid-19 cases of afflicted countries and displays them on a mapbox map.
+A web app that fetches the current number of Covid-19 in countries and displays them on a mapbox map. Also fetches the most recent Covid-19 news.
 
 ### Installation
 
@@ -19,3 +19,4 @@ npm start
 
 - [TrackCorona](https://www.trackcorona.live)
 - [covid19api](https://covid19api.com/)
+- [Smartable AI](https://developer.smartable.ai/)

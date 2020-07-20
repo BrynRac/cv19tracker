@@ -12,7 +12,6 @@ export default function NewsItem({ story, clickHandler }) {
         </div>
         <p className="news-item-title">{story.title}</p>
       </div>
-      {story.images && <p>Images available</p>}
     </li>
   );
 }
