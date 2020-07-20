@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { toggleModal } from '../../redux/actions/modalActions';
 
 // ampWebUrl: "https://www.washingtonpost.com/nation/2020/07/19/coronavirus-update-us/?outputType=amp"
 // categories: ["news"]
@@ -17,19 +19,66 @@ import React from 'react';
 // updatedDateTime: null
 
 export default function Modal({ story }) {
+  const dispatch = useDispatch();
   return (
     <div className="Modal">
-      <h3>{story.title}</h3>
       {story.images && (
-        <img
-          className="modal-image"
-          alt={story.title}
-          src={story.images[0].url}
-        />
+        <a target="_blank" rel="noopener noreferrer" href={story.webUrl}>
+          <img
+            className="modal-image"
+            alt={story.title}
+            src={story.images[0].url}
+          />
+        </a>
       )}
-      <p> {story.excerpt}</p>
-      <p>{story.publishedDateTime.split('T')[0]}</p>
-      <h4>{story.provider.name}</h4>
+      <div className="modal-text">
+        <h4>{story.provider.name}</h4>
+        <h3>{story.title}</h3>
+        {story.provider.authors && <p>By {story.provider.authors}</p>}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '150px',
+          }}
+        >
+          <p>{story.publishedDateTime.split('T')[0]}</p>
+          <a target="_blank" rel="noopener noreferrer" href={story.webUrl}>
+            Source
+          </a>
+        </div>
+        <p> — {story.excerpt}</p>
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '1rem',
+          alignItems: 'center',
+        }}
+      >
+        <button
+          onClick={() => {
+            dispatch(toggleModal());
+          }}
+          className="modal-button"
+        >
+          Close
+        </button>
+        <div style={{display:"flex"}}>
+          <h4>{story.heat}</h4>
+          <span
+            style={{
+              marginLeft: '10px',
+            }}
+            role="img"
+            aria-label="heat"
+          >
+            🔥
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
