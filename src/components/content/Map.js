@@ -3,7 +3,9 @@ import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { IntlProvider, FormattedNumber } from 'react-intl';
 import useSupercluster from 'use-supercluster';
 
+// components
 import PopUp from './PopUp';
+import Spinner from '../Spinner';
 
 export default function Map({ covid }) {
   const [viewport, setViewport] = useState({
@@ -12,24 +14,10 @@ export default function Map({ covid }) {
     zoom: 1,
     maxZoom: 12,
   });
+  const [mapLoaded, setMapLoaded] = useState(false);
   const [activeMarker, setActiveMarker] = useState(null);
-
-  useEffect(() => {
-    const listener = (e) => {
-      if (e.key === 'Escape') {
-        setActiveMarker(null);
-      }
-    };
-    window.addEventListener('keydown', listener);
-    return (_) => {
-      window.removeEventListener('keydown', listener);
-    };
-  }, []);
-
   const token = process.env.REACT_APP_MAPBOX_TOKEN;
-
   const mapRef = useRef();
-
   const points = covid.covidData.map((point) => ({
     type: 'Feature',
     properties: {
@@ -45,17 +33,124 @@ export default function Map({ covid }) {
     },
     geometry: { type: 'Point', coordinates: [point.longitude, point.latitude] },
   }));
-
   const bounds = mapRef.current
     ? mapRef.current.getMap().getBounds().toArray().flat()
     : null;
-
   const { clusters, supercluster } = useSupercluster({
     points,
     zoom: viewport.zoom,
     bounds,
     options: { radius: 80, maxZoom: viewport.maxZoom },
   });
+
+  useEffect(() => {
+    const listener = (e) => {
+      if (e.key === 'Escape') {
+        setActiveMarker(null);
+      }
+    };
+    window.addEventListener('keydown', listener);
+    return (_) => {
+      window.removeEventListener('keydown', listener);
+    };
+  }, []);
+
+  let mapFeatures = (
+    <div className="map-features">
+      {clusters.map((cluster) => {
+        const [longitude, latitude] = cluster.geometry.coordinates;
+        const {
+          cluster: isCluster,
+          point_count: pointCount,
+        } = cluster.properties;
+        const { confirmed, code } = cluster.properties;
+
+        function zoomIn() {
+          const expansionZoom = Math.min(
+            supercluster.getClusterExpansionZoom(cluster.id),
+            12
+          );
+          setViewport({
+            ...viewport,
+            latitude,
+            longitude,
+            zoom: expansionZoom,
+          });
+        }
+
+        function activateMarker() {
+          setActiveMarker(cluster.properties);
+        }
+
+        if (isCluster) {
+          return (
+            <Marker key={cluster.id} latitude={latitude} longitude={longitude}>
+              {pointCount < 20 ? (
+                <div
+                  onClick={() => zoomIn()}
+                  className="cluster-marker"
+                  style={{ width: '25px', height: '25px' }}
+                >
+                  {pointCount}
+                </div>
+              ) : (
+                <div
+                  onClick={() => zoomIn()}
+                  className="cluster-marker"
+                  style={{
+                    width: `${7 * (pointCount / points.length) * 50}px`,
+                    height: `${7 * (pointCount / points.length) * 50}px`,
+                  }}
+                >
+                  {pointCount}
+                </div>
+              )}
+            </Marker>
+          );
+        }
+        return (
+          <Marker key={code} latitude={latitude} longitude={longitude}>
+            <IntlProvider locale="en">
+              {confirmed > 0 && confirmed < 10000 && (
+                <div
+                  className="marker marker-small"
+                  onClick={() => {
+                    activateMarker();
+                  }}
+                >
+                  <FormattedNumber value={confirmed} />
+                </div>
+              )}
+              {confirmed > 10000 && confirmed < 30000 && (
+                <div
+                  className="marker marker-medium"
+                  onClick={() => {
+                    activateMarker();
+                  }}
+                >
+                  <FormattedNumber value={confirmed} />
+                </div>
+              )}
+              {confirmed > 50000 && (
+                <div
+                  className="marker marker-large"
+                  onClick={() => {
+                    activateMarker();
+                  }}
+                >
+                  <FormattedNumber value={confirmed} />
+                </div>
+              )}
+            </IntlProvider>
+          </Marker>
+        );
+      })}
+    </div>
+  );
+
+  function loadHandler() {
+    setMapLoaded(true);
+  }
 
   return (
     <div>
@@ -67,100 +162,9 @@ export default function Map({ covid }) {
         width={'100vw'}
         height={'100vh'}
         ref={mapRef}
+        onLoad={() => loadHandler()}
       >
-        {clusters.map((cluster) => {
-          const [longitude, latitude] = cluster.geometry.coordinates;
-          const {
-            cluster: isCluster,
-            point_count: pointCount,
-          } = cluster.properties;
-          const { confirmed, code } = cluster.properties;
-
-          function zoomIn() {
-            const expansionZoom = Math.min(
-              supercluster.getClusterExpansionZoom(cluster.id),
-              12
-            );
-            setViewport({
-              ...viewport,
-              latitude,
-              longitude,
-              zoom: expansionZoom,
-            });
-          }
-
-          function activateMarker() {
-            setActiveMarker(cluster.properties);
-          }
-
-          if (isCluster) {
-            return (
-              <Marker
-                key={cluster.id}
-                latitude={latitude}
-                longitude={longitude}
-              >
-                {pointCount < 20 ? (
-                  <div
-                    onClick={() => zoomIn()}
-                    className="cluster-marker"
-                    style={{ width: '25px', height: '25px' }}
-                  >
-                    {pointCount}
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => zoomIn()}
-                    className="cluster-marker"
-                    style={{
-                      width: `${7 * (pointCount / points.length) * 50}px`,
-                      height: `${7 * (pointCount / points.length) * 50}px`,
-                    }}
-                  >
-                    {pointCount}
-                  </div>
-                )}
-              </Marker>
-            );
-          }
-          return (
-            <Marker key={code} latitude={latitude} longitude={longitude}>
-              <IntlProvider locale="en">
-                {confirmed > 0 && confirmed < 10000 && (
-                  <div
-                    className="marker marker-small"
-                    onClick={() => {
-                      activateMarker();
-                    }}
-                  >
-                    <FormattedNumber value={confirmed} />
-                  </div>
-                )}
-                {confirmed > 10000 && confirmed < 30000 && (
-                  <div
-                    className="marker marker-medium"
-                    onClick={() => {
-                      activateMarker();
-                    }}
-                  >
-                    <FormattedNumber value={confirmed} />
-                  </div>
-                )}
-                {confirmed > 50000 && (
-                  <div
-                    className="marker marker-large"
-                    onClick={() => {
-                      activateMarker();
-                    }}
-                  >
-                    <FormattedNumber value={confirmed} />
-                  </div>
-                )}
-              </IntlProvider>
-            </Marker>
-          );
-        })}
-
+        {mapLoaded ? mapFeatures : <Spinner />}
         {activeMarker ? (
           <Popup
             onClose={() => setActiveMarker(null)}
