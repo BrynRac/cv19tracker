@@ -8,13 +8,11 @@ export default function Modal({ story }) {
     <div className="Modal">
       {story.images && (
         <a target="_blank" rel="noopener noreferrer" href={story.webUrl}>
-          <div className="modal-image">
-            <img
-              className="image"
-              alt={story.title}
-              src={story.images[0].url}
-            />
-          </div>
+          <img
+            className="modal-image"
+            alt={story.title}
+            src={story.images[0].url}
+          />
         </a>
       )}
 
